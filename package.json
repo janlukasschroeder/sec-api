@@ -1,0 +1,24 @@
+{
+  "name": "sec-api",
+  "version": "1.0.0",
+  "description": "sec.gov EDGAR API Wrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janlukasschroeder/sec-api.git"
+  },
+  "keywords": [
+    "sec.gov",
+    "EDGAR",
+    "API"
+  ],
+  "author": "Jan Schroeder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/janlukasschroeder/sec-api/issues"
+  },
+  "homepage": "https://github.com/janlukasschroeder/sec-api#readme"
+}
