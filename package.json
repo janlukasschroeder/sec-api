@@ -13,7 +13,16 @@
   "keywords": [
     "sec.gov",
     "EDGAR",
-    "API"
+    "API",
+    "Filings",
+    "XBRL to JSON",
+    "real-time",
+    "JSON Filings",
+    "10-K",
+    "10-Q",
+    "8-K",
+    "13-F",
+    "TO-C"
   ],
   "author": "Jan Schroeder",
   "license": "MIT",

@@ -1,8 +1,17 @@
-# sec.gov EDGAR API Wrapper
+# sec.gov EDGAR filings real-time API
 
-API wrapper using socket.io
-to access sec.gov EDGAR filings in real-time from
-https://www.sec.gov/edgar/searchedgar/companysearch.html
+- No manual, error-prone scraping/crawling required
+- Returns any new filing in real-time (10-Q, 10-K, 4, 8, 13-F, etc.)
+- API uses websockets
+  to access sec.gov EDGAR filings in real-time.
+- Maximum of 30 seconds delay between publish time on EDGAR
+  and event trigger of API.
+- All responses are in JSON format.
+- No XBRL (and XML parser) needed.
+- Supports client-side (React, React Native, Angular, Vue, etc.), and
+  server-side (Node.js, etc.) JavaScript.
+- Python, R, Java, and C++ are supported if a websocket plugin is used.
+- Data source: https://www.sec.gov/edgar/searchedgar/companysearch.html
 
 ![Demo](./demo.gif)
 
@@ -44,7 +53,7 @@ class Filings extends React.Component {
 - `linkToHtmlAnnouncement` (string) - link to filing in HTML format
 - `announcedAt` (string) - ISO 8601 conform filing date and time
 
-## Example
+## Example JSON Response
 
 ```js
 {
