@@ -23,9 +23,8 @@ import api from 'sec-api';
 
 class Filings extends React.Component {
   componentDidMount() {
-    api();
-
-    api.on('filing', filing => console.log(filing));
+    const socket = api();
+    socket.on('filing', filing => console.log(filing));
   }
 
   // ...
