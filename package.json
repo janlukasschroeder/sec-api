@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/janlukasschroeder/sec-api/issues"
   },
-  "homepage": "https://github.com/janlukasschroeder/sec-api#readme"
+  "homepage": "https://github.com/janlukasschroeder/sec-api#readme",
+  "dependencies": {
+    "socket.io-client": "^2.2.0"
+  }
 }
