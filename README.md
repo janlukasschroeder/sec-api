@@ -46,11 +46,13 @@ class Filings extends React.Component {
 
 # Response Format
 
-- `companyName` (string) - name of company
+- `companyName` (string) - name of company, including CIK
 - `type` (string) - sec.gov form type, e.g 10-K
 - `description` (string) - description of filing, e.g. OWNERSHIP DOCUMENT
 - `linkToFilingDetails` (string) - link to all documents attached to the filing
 - `linkToHtmlAnnouncement` (string) - link to filing in HTML format
+- `linkToXbrl` (string) - link to XBRL file (in XML format) of filing. Is not set, if no XBRL file is attached to
+  the original filing on EDGAR.
 - `announcedAt` (string) - ISO 8601 conform filing date and time
 
 ## Example JSON Response
@@ -64,6 +66,7 @@ class Filings extends React.Component {
     'https://www.sec.gov/Archives/edgar/data/1001039/000100103918000235/0001001039-18-000235-index.htm',
   linkToHtmlAnnouncement:
     'https://www.sec.gov/Archives/edgar/data/1001039/000100103918000235/xslF345X03/wf-form4_154544051056009.xml',
+  linkToXbrl: 'https://www.sec.gov/Archives/edgar/data/1001039/000100103918000235/wf-form4_154544051056009.xml',
   announcedAt: '2018-12-21T20:02:07-05:00'
 }
 ```
