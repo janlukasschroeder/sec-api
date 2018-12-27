@@ -1,6 +1,6 @@
 {
   "name": "sec-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "sec.gov EDGAR API Wrapper",
   "main": "index.js",
   "scripts": {
