@@ -14,6 +14,12 @@ const handleNewFiling = filing => {
   store.eventEmitter.emit('filing', filing);
 };
 
+module.exports.close = () => {
+  if (store.socket.close) {
+    store.socket.close();
+  }
+};
+
 module.exports = () => {
   initSocket();
   store.eventEmitter = new events.EventEmitter();
