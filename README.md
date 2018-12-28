@@ -13,7 +13,7 @@
 - Python, R, Java, and C++ are supported if a websocket plugin is used.
 - Data source: https://www.sec.gov/edgar/searchedgar/companysearch.html
 
-![Demo](./demo.gif)
+![img](https://i.imgur.com/4TjC4fH.gif)
 
 # Getting Started
 
