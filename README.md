@@ -12,19 +12,21 @@
   server-side (Node.js, etc.) JavaScript.
 - Python, R, Java, and C++ are supported if a websocket plugin is used.
 - Data source: https://www.sec.gov/edgar/searchedgar/companysearch.html
+- Free API key available on [sec-api.io](https://sec-api.io)
 
 ![img](https://i.imgur.com/4TjC4fH.gif)
 
 # Getting Started
 
-`npm install sec-api`
+1. Get your free API key here: [sec-api.io](https://sec-api.io)
+2. Install: `npm install sec-api`
 
 # Examples
 
 ## Node.js
 
 ```js
-const api = require('sec-api')();
+const api = require('sec-api')('your_api_key');
 
 api.on('filing', filing => console.log(filing));
 ```
@@ -38,7 +40,7 @@ import api from 'sec-api';
 
 class Filings extends React.Component {
   componentDidMount() {
-    const socket = api();
+    const socket = api('your_api_key');
     socket.on('filing', filing => console.log(filing));
   }
 
@@ -72,3 +74,11 @@ class Filings extends React.Component {
   announcedAt: '2018-12-21T20:02:07-05:00'
 }
 ```
+
+# Contact
+
+Let me know how I can improve the library or if you have any feature
+suggestions. I'm happy to implement them.
+
+Just open a new issue on github here:
+[https://github.com/janlukasschroeder/sec-api/issues](https://github.com/janlukasschroeder/sec-api/issues)

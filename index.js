@@ -3,11 +3,13 @@ const config = require('./config');
 const events = require('events');
 const store = {};
 
-const initSocket = () => {
+const initSocket = apiKey => {
   const uri = config.io.server + '/' + config.io.namespace.allFilings;
-  store.socket = io(uri);
+  const params = { query: { apiKey } };
+  store.socket = io(uri, params);
   store.socket.on('connect', () => console.log('Socket connected to', uri));
   store.socket.on('filing', handleNewFiling);
+  store.socket.on('error', console.error);
 };
 
 const handleNewFiling = filing => {
@@ -20,8 +22,8 @@ module.exports.close = () => {
   }
 };
 
-module.exports = () => {
-  initSocket();
+module.exports = apiKey => {
+  initSocket(apiKey);
   store.eventEmitter = new events.EventEmitter();
   return store.eventEmitter;
 };
