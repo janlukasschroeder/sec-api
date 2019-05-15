@@ -1,6 +1,6 @@
 module.exports = {
   io: {
-    server: 'https://sec-edgar-scanner-client.herokuapp.com',
+    server: 'https://socket.sec-api.io',
     namespace: {
       allFilings: 'all-filings'
     }
