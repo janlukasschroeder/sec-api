@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const io = require('socket.io-client');
 const config = require('./config');
 const events = require('events');
@@ -16,14 +18,22 @@ const handleNewFiling = filing => {
   store.eventEmitter.emit('filing', filing);
 };
 
-module.exports.close = () => {
+const close = () => {
   if (store.socket.close) {
     store.socket.close();
   }
 };
 
-module.exports = apiKey => {
+const connect = apiKey => {
   initSocket(apiKey);
   store.eventEmitter = new events.EventEmitter();
   return store.eventEmitter;
 };
+
+module.exports = connect;
+module.exports.close = close;
+
+if (require.main === module) {
+  const apiKey = process.argv[2];
+  connect(apiKey);
+}

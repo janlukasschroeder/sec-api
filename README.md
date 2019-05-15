@@ -18,16 +18,36 @@
 
 # Getting Started
 
-1. Get your free API key here: [sec-api.io](https://sec-api.io)
-2. Install: `npm install sec-api`
+You can use the API in your command line, or develop your own application
+using the API as imported package. Both options are explained below.
 
-# Examples
+**Before you start**:
+
+- Install Node.js if you haven't already. On Mac in the command line type `brew install node`.
+- Get your free API key here: [sec-api.io](https://sec-api.io)
+
+## Command Line
+
+In your command line, type
+
+1. `npm install sec-api -g` to install the package
+2. `sec-api YOUR_API_KEY` to connect to the stream. Replace `YOUR_API_KEY` with
+   the API key provided on [sec-api.io](https://sec-api.io)
+3. Done! You will filings printed in your command line
+   as soon as they are published on SEC EDGAR.
 
 ## Node.js
 
-```js
-const api = require('sec-api')('your_api_key');
+In you command line, type:
 
+1. `mkdir my-project && npm init` to create a new Node.js project. Complete the
+   setup wizard by hitting Enter until finished.
+2. `cd my-project && touch index.js` to create an empty file.
+3. Copy/paste the example code below into the file `index.js`. Replace `YOUR_API_KEY` with
+   the API key provided on [sec-api.io](https://sec-api.io)
+
+```js
+const api = require('sec-api')('YOUR_API_KEY');
 api.on('filing', filing => console.log(filing));
 ```
 
@@ -40,7 +60,7 @@ import api from 'sec-api';
 
 class Filings extends React.Component {
   componentDidMount() {
-    const socket = api('your_api_key');
+    const socket = api('YOUR_API_KEY');
     socket.on('filing', filing => console.log(filing));
   }
 
