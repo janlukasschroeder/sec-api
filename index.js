@@ -35,5 +35,6 @@ module.exports.close = close;
 
 if (require.main === module) {
   const apiKey = process.argv[2];
-  connect(apiKey);
+  const emitter = connect(apiKey);
+  emitter.on('filing', filing => console.log(JSON.stringify(filing, null, 1)));
 }
