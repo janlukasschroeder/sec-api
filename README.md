@@ -1,20 +1,18 @@
 # sec.gov EDGAR filings real-time API
 
-- No manual, error-prone scraping/crawling required
-- Returns any new filing in real-time (10-Q, 10-K, 4, 8, 13-F, etc.)
-- API uses websockets
-  to access sec.gov EDGAR filings in real-time.
-- Maximum of 30 seconds delay between publish time on EDGAR
-  and event trigger of API.
-- All responses are in JSON format.
-- No XBRL (and XML parser) needed.
-- Supports client-side (React, React Native, Angular, Vue, etc.), and
-  server-side (Node.js, etc.) JavaScript.
-- Python, R, Java, and C++ are supported if a websocket plugin is used.
-- Data source: https://www.sec.gov/edgar/searchedgar/companysearch.html
-- Free API key available on [sec-api.io](https://sec-api.io)
-
 ![img](https://i.imgur.com/4TjC4fH.gif)
+
+- All SEC form types supported: 10-Q/K, 8-K, 4, 8, 13-F, etc. (list of all forms)
+- JSON formatted real-time filings; max. 30 seconds delay between publish time on EDGAR and event trigger of API
+- No XBRL/XML needed
+- Python, R, Java, C++, Excel scripts are supported if a websocket plugin is used;
+  supports client-side (React, React Native, Angular, Vue, etc.), and server-side (Node.js, etc.) JavaScript.
+- Data source: [sec.goc](https://www.sec.gov/edgar/searchedgar/companysearch.html)
+- Free API key available on sec-api.io
+
+[This Medium article](https://medium.com/@jan_5421/sec-edgar-api-2-b2cfb82c1d9e)
+explains how to use the "search" API to retrieve
+historical filings.
 
 # Getting Started
 
@@ -38,18 +36,21 @@ In your command line, type
 
 ## Node.js
 
-In you command line, type:
+Type in your command line:
 
-1. `mkdir my-project && npm init` to create a new Node.js project. Complete the
-   setup wizard by hitting Enter until finished.
-2. `cd my-project && touch index.js` to create an empty file.
-3. Copy/paste the example code below into the file `index.js`. Replace `YOUR_API_KEY` with
-   the API key provided on [sec-api.io](https://sec-api.io)
+1. `mkdir my-project && cd my-project` to create a new folder for your project.
+2. `npm init -y` to set up Node.js boilerplate.
+3. `npm install sec-api` to install the package.
+4. `touch index.js` to create a new file. Copy/paste the example code below
+   into the file index.js. Replace `YOUR_API_KEY` with the API key provided on [sec-api.io](https://sec-api.io)
 
 ```js
 const api = require('sec-api')('YOUR_API_KEY');
 api.on('filing', filing => console.log(filing));
 ```
+
+5. `node index.js` to start listening for new filings. New filings are
+   printed in your console as soon as they are published on SEC EDGAR.
 
 ## React
 
