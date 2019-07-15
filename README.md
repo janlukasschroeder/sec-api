@@ -52,6 +52,29 @@ api.on('filing', filing => console.log(filing));
 5. `node index.js` to start listening for new filings. New filings are
    printed in your console as soon as they are published on SEC EDGAR.
 
+## Python
+
+- Install the socket.io client: `pip install "python-socketio[client]"`
+- Run the example script below. Get your free API key on [sec-api.io](https://sec-api.io)
+  and replace `YOUR_API_KEY` with it.
+
+```python
+import socketio
+
+sio = socketio.Client()
+
+@sio.on('connect', namespace='/all-filings')
+def on_connect():
+    print("Connected to https://socket.sec-api.io/all-filings")
+
+@sio.on('filing', namespace='/all-filings')
+def on_filings(filing):
+    print(filing)
+
+sio.connect('https://socket.sec-api.io?apiKey=YOUR_API_KEY', namespaces=['/all-filings'])
+sio.wait()
+```
+
 ## React
 
 Live Demo: https://codesandbox.io/s/01xqz2ml9l
