@@ -3,18 +3,15 @@
 - **Over 8000** publicly listed companies, ETFs, mutual funds, and investors are covered.
 - Every filing is **mapped to a CIK and ticker**.
 - **Over 150 form types** are supported, eg 10-Q, 10-K, 4, 8-K, 13-F and many more.
-  [See the list of supported form types here.](https://www.sec.gov/forms)
+  [See the list of supported form types here.](https://sec-api.io/#list-of-sec-form-types)
 - The API returns a new filing as soon as it is published on SEC EDGAR.
 - **No XBRL/XML** needed - JSON formatted.
 - Python, R, Java, C++, Excel scripts are supported through websockets
 - Client- and server-side JavaScript supported (Node.js, React, React Native, Angular, Vue, etc.)
 - Free API key available on [sec-api.io](https://sec-api.io)
 
-![img](https://i.imgur.com/4TjC4fH.gif)
-
-[This Medium article](https://medium.com/@jan_5421/sec-edgar-api-2-b2cfb82c1d9e)
-explains how to use the "search" API to retrieve
-historical filings.
+The official documentation explains how to use the
+query API to filter historical filings: [sec-api.io/docs](https://sec-api.io/docs)
 
 Data source: [sec.gov](https://www.sec.gov/edgar/searchedgar/companysearch.html)
 
