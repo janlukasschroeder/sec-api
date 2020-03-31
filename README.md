@@ -1,6 +1,6 @@
 # sec.gov EDGAR filings real-time API
 
-- **Over 8000** publicly listed companies, ETFs, mutual funds, and investors are covered.
+- Covers SEC Edgar filings for **over 8000** publicly listed companies, ETFs, hedge funds, mutual funds, and investors.
 - Every filing is **mapped to a CIK and ticker**.
 - **Over 150 form types** are supported, eg 10-Q, 10-K, 4, 8-K, 13-F and many more.
   [See the list of supported form types here.](https://sec-api.io/#list-of-sec-form-types)
@@ -66,19 +66,19 @@ sio = socketio.Client()
 
 @sio.on('connect', namespace='/all-filings')
 def on_connect():
-    print("Connected to https://socket.sec-api.io/all-filings")
+    print("Connected to https://api.sec-api.io:3334/all-filings")
 
 @sio.on('filing', namespace='/all-filings')
 def on_filings(filing):
     print(filing)
 
-sio.connect('https://socket.sec-api.io?apiKey=YOUR_API_KEY', namespaces=['/all-filings'])
+sio.connect('https://api.sec-api.io:3334?apiKey=YOUR_API_KEY', namespaces=['/all-filings'])
 sio.wait()
 ```
 
 ## React
 
-Live Demo: https://codesandbox.io/s/01xqz2ml9l
+Live Demo: https://codesandbox.io/s/01xqz2ml9l (requires an API key to work)
 
 ```js
 import api from 'sec-api';
@@ -95,28 +95,36 @@ class Filings extends React.Component {
 
 # Response Format
 
-- `companyName` (string) - name of company, e.g. WALT DISNEY CO/ (0001001039) (Issuer)
-- `cik` (string) - CIK of company, e.g. 0001001039
-- `type` (string) - sec.gov form type, e.g 10-K
-- `description` (string) - description of filing, e.g. OWNERSHIP DOCUMENT
-- `linkToFilingDetails` (string) - link to all documents attached to the filing
-- `linkToHtmlAnnouncement` (string) - link to filing in HTML format
+- `id` (string) - unique ID (md5 hash of link to original filing) of filing, eg `e6a4da06fefffcaa65655b3b4602dd7f`
+- `companyName` (string) - name of company, e.g. `Apple Inc.`
+- `companyNameLong` (string) - company name long format including original CIK and ownership type (`Issuer`, `Reporting`), e.g. `Apple Inc. (0000320193) (Issuer)`
+- `ticker` (string) - ticker symbol of the company, e.g. `AAPL`
+- `cik` (string) - CIK of company without trailing `0`, e.g. `1001039`
+- `formType` (string) - sec.gov form type, e.g `10-K`. See the list of all form types here: https://www.sec.gov/info/edgar/forms/edgform.pdf
+- `description` (string) - description of filing, e.g. `Statement of changes in beneficial ownership of securities`
+- `linkToFilingDetails` (string) - link to HTML or XML file of filing
+- `linkToTxt` (string) - link to text version (.txt) of filing
+- `linkToHtml` (string) - link to attachements of filing
 - `linkToXbrl` (string) - link to XBRL file (in XML format) of filing. Is not set, if no XBRL file is attached to
   the original filing on EDGAR.
-- `announcedAt` (string) - ISO 8601 conform filing date and time, e.g. 2018-12-21T20:02:07-05:00
+- `filedAt` (string) - ISO 8601 conform filing date and time, e.g. `2020-02-28T18:35:51-05:00`
 
 ## Example JSON Response
 
 ```js
 {
-  companyName: 'WALT DISNEY CO/ (0001001039) (Issuer)',
-  cik: '0001001039',
-  type: '4',
-  description: 'FORM 4',
-  linkToFilingDetails: 'https://www.sec.gov/Archives/edgar/data/1001039/000100103918000235/0001001039-18-000235-index.htm',
-  linkToHtmlAnnouncement: 'https://www.sec.gov/Archives/edgar/data/1001039/000100103918000235/xslF345X03/wf-form4_154544051056009.xml',
-  linkToXbrl: 'https://www.sec.gov/Archives/edgar/data/1001039/000100103918000235/wf-form4_154544051056009.xml',
-  announcedAt: '2018-12-21T20:02:07-05:00'
+  "id": "4ca00d307b1e8d07dd1c75ae20ed0cb9",
+  "cik": "320193",
+  "ticker": "AAPL",
+  "companyName": "Apple Inc.",
+  "companyNameLong": "Apple Inc. (0000320193) (Issuer)",
+  "formType": "4",
+  "description": "Statement of changes in beneficial ownership of securities",
+  "filedAt": "2020-02-28T18:35:51-05:00",
+  "linkToTxt": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000034/0000320193-20-000034.txt",
+  "linkToHtml": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000034/0000320193-20-000034-index.htm",
+  "linkToXbrl": "",
+  "linkToFilingDetails": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000034/xslF345X03/wf-form4_158293293482087.xml"
 }
 ```
 
