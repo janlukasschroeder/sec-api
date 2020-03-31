@@ -32,7 +32,7 @@ In your command line, type
 1. `npm install sec-api -g` to install the package
 2. `sec-api YOUR_API_KEY` to connect to the stream. Replace `YOUR_API_KEY` with
    the API key provided on [sec-api.io](https://sec-api.io)
-3. Done! You will filings printed in your command line
+3. Done! You will see new filings printed in your command line
    as soon as they are published on SEC EDGAR.
 
 ## Node.js

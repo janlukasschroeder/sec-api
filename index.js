@@ -11,11 +11,16 @@ const initSocket = apiKey => {
   store.socket = io(uri, params);
   store.socket.on('connect', () => console.log('Socket connected to', uri));
   store.socket.on('filing', handleNewFiling);
+  store.socket.on('filings', handleNewFilings);
   store.socket.on('error', console.error);
 };
 
 const handleNewFiling = filing => {
   store.eventEmitter.emit('filing', filing);
+};
+
+const handleNewFilings = filings => {
+  store.eventEmitter.emit('filings', filings);
 };
 
 const close = () => {
