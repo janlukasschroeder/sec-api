@@ -1,8 +1,8 @@
-# sec.gov EDGAR filings real-time API
+# sec.gov EDGAR filings query & real-time API
 
-- Covers SEC Edgar filings for **over 8000** publicly listed companies, ETFs, hedge funds, mutual funds, and investors.
+- Covers +18 million SEC Edgar filings for **over 8000** publicly listed companies, ETFs, hedge funds, mutual funds, and investors dating back to 1993.
 - Every filing is **mapped to a CIK and ticker**.
-- **Over 150 form types** are supported, eg 10-Q, 10-K, 4, 8-K, 13-F and many more.
+- **All +150 form types** are supported, eg 10-Q, 10-K, 4, 8-K, 13-F, S-1, 424B4 and many more.
   [See the list of supported form types here.](https://sec-api.io/#list-of-sec-form-types)
 - The API returns a new filing as soon as it is published on SEC EDGAR.
 - **No XBRL/XML** needed - JSON formatted.
