@@ -26,6 +26,61 @@ using the API as imported package. Both options are explained below.
 - Install Node.js if you haven't already. On Mac in the command line type `brew install node`.
 - Get your free API key here: [sec-api.io](https://sec-api.io)
 
+# Query API
+
+```js
+const { queryApi } = require('sec-api');
+
+queryApi.setApiKey('YOUR_API_KEY');
+
+const query = {
+  query: { query_string: { query: 'formType:"10-Q"' } }, // get most recent 10-Q filings
+  from: '0', // start with first filing. used for pagination.
+  size: '10', // limit response to 10 filings
+  sort: [{ filedAt: { order: 'desc' } }], // sort result by filedAt
+};
+
+const filings = await queryApi.getFilings(rawQuery);
+```
+
+# Full-Text Search API
+
+```js
+const { fullTextSearchApi } = require('sec-api');
+
+fullTextSearchApi.setApiKey('YOUR_API_KEY');
+
+const query = {
+  query: '"LPCN 1154"',
+  formTypes: ['8-K', '10-Q'],
+  startDate: '2021-01-01',
+  endDate: '2021-06-14',
+};
+
+const filings = await fullTextSearchApi.getFilings(rawQuery);
+```
+
+# Real-Time Streaming API
+
+Type in your command line:
+
+1. `mkdir my-project && cd my-project` to create a new folder for your project.
+2. `npm init -y` to set up Node.js boilerplate.
+3. `npm install sec-api` to install the package.
+4. `touch index.js` to create a new file. Copy/paste the example code below
+   into the file `index.js`. Replace `YOUR_API_KEY` with the API key provided on [sec-api.io](https://sec-api.io)
+
+```js
+const { streamApi } = require('sec-api');
+
+streamApi.connect('YOUR_API_KEY');
+
+streamApi.on('filing', (filing) => console.log(filing));
+```
+
+5. `node index.js` to start listening for new filings. New filings are
+   printed in your console as soon as they are published on SEC EDGAR.
+
 ## Command Line
 
 In your command line, type
@@ -36,57 +91,16 @@ In your command line, type
 3. Done! You will see new filings printed in your command line
    as soon as they are published on SEC EDGAR.
 
-## Node.js
-
-Type in your command line:
-
-1. `mkdir my-project && cd my-project` to create a new folder for your project.
-2. `npm init -y` to set up Node.js boilerplate.
-3. `npm install sec-api` to install the package.
-4. `touch index.js` to create a new file. Copy/paste the example code below
-   into the file index.js. Replace `YOUR_API_KEY` with the API key provided on [sec-api.io](https://sec-api.io)
-
-```js
-const api = require('sec-api')('YOUR_API_KEY');
-api.on('filing', (filing) => console.log(filing));
-```
-
-5. `node index.js` to start listening for new filings. New filings are
-   printed in your console as soon as they are published on SEC EDGAR.
-
-## Python
-
-- Install the socket.io client: `pip install "python-socketio[client]"`
-- Run the example script below. Get your free API key on [sec-api.io](https://sec-api.io)
-  and replace `YOUR_API_KEY` with it.
-
-```python
-import socketio
-
-sio = socketio.Client()
-
-@sio.on('connect', namespace='/all-filings')
-def on_connect():
-    print("Connected to https://api.sec-api.io:3334/all-filings")
-
-@sio.on('filing', namespace='/all-filings')
-def on_filings(filing):
-    print(filing)
-
-sio.connect('https://api.sec-api.io:3334?apiKey=YOUR_API_KEY', namespaces=['/all-filings'])
-sio.wait()
-```
-
 ## React
 
 Live Demo: https://codesandbox.io/s/01xqz2ml9l (requires an API key to work)
 
 ```js
-import api from 'sec-api';
+import { streamApi } from 'sec-api';
 
 class Filings extends React.Component {
   componentDidMount() {
-    const socket = api('YOUR_API_KEY');
+    const socket = streamApi('YOUR_API_KEY');
     socket.on('filing', (filing) => console.log(filing));
   }
 
@@ -108,6 +122,8 @@ class Filings extends React.Component {
 - `linkToHtml` (string) - Link to index page of the filing listing all exhibits and the original HTML file.
 - `linkToXbrl` (string, optional) - Link to XBRL version of the filing (if available).
 - `filedAt` (string) - The date (format: YYYY-MM-DD HH:mm:SS TZ) the filing was filed, eg 2019-12-06T14:41:26-05:00.
+- `periodOfReport` (string, if reported) - Period of report, e.g. 2021-06-08
+- `effectivenessDate` (string, if reported) - Effectiveness date, e.g. 2021-06-08
 - `id` (string) - Unique ID of the filing.
 - `entities` (array) - A list of all entities referred to in the filing. The first item in the array always represents the filing issuer. Each array element is an object with the following keys:
   - `companyName` (string) - Company name of the entity, e.g. DILLARD'S, INC. (Issuer)
@@ -132,6 +148,32 @@ class Filings extends React.Component {
   - `documentUrl` (string) - URL to the file on SEC.gov
   - `type` (string, optional) - Type of the file, e.g. EX-101.INS, EX-101.DEF or EX-101.PRE
   - `size` (string, optional) - Size of the file, e.g. 6627216
+- `seriesAndClassesContractsInformation` (array) - List of series and classes/contracts information
+  - `series` (string) - Series ID, e.g. S000001297
+  - `name` (string) - Name of entity, e.g. PRUDENTIAL ANNUITIES LIFE ASSUR CORP VAR ACCT B CL 1 SUB ACCTS
+  - `classesContracts` (array) - List of classes/contracts. Each list item has the following keys:
+    - `classContract` (string) - Class/Contract ID, e.g. C000011787
+    - `name` (string) - Name of class/contract entity, e.g. Class L
+    - `ticker` (string) - Ticker class/contract entity, e.g. URTLX
+
+## 13F Institutional Ownerships
+
+13F filings report institutional ownerships. Each 13F filing has an attribute `holdings` (array). An array item in holdings represents one holding and has the following attributes:
+
+- `nameOfIssuer` (string) - Name of issuer, e.g. MICRON TECHNOLOGY INC
+- `titleOfClass` (string) - Title of class, e.g. COM
+- `cusip` (string) - CUSIP of security, e.g. 98850P109
+- `value` (integer) - Absolute holding value in $, e.g. 18000. Note: `value` doesn't have to be multiplied by 1000 anymore. It's done by our API automatically.
+- `shrsOrPrnAmt` (object)
+  - `sshPrnamt` (integer) - Shares or PRN AMT, e.g. 345
+  - `sshPrnamtType` (string) - Share/PRN type, e.g. "SH"
+- `putCall` (string, optional) - Put / Call, e.g. Put
+- `investmentDiscretion` (string) - Investment discretion, e.g. "SOLE"
+- `otherManager` (string, optional) - Other manager, e.g. 7
+- `votingAuthority` (object)
+  - `Sole` (integer) - Sole, e.g. 345
+  - `Shared` (integer) - Shared, e.g. 345
+  - `None` (integer) - None, e.g. 345
 
 ## Example JSON Response
 
