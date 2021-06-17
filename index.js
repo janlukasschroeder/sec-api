@@ -92,6 +92,29 @@ const getFilingsFullText = async (query) => {
 };
 
 /**
+ * Render API
+ */
+const getFilingContent = async (url, type = 'html') => {
+  const _url =
+    config.renderApi.endpoint +
+    '?token=' +
+    store.apiKey +
+    '&type=' +
+    type +
+    '&url=' +
+    url;
+
+  const options = {
+    method: 'get',
+    url: _url,
+  };
+
+  const { data } = await axios(options);
+
+  return data;
+};
+
+/**
  * Helpers
  */
 const modules = {
@@ -108,6 +131,10 @@ const modules = {
   fullTextSearchApi: {
     setApiKey,
     getFilings: getFilingsFullText,
+  },
+  renderApi: {
+    setApiKey,
+    getFilingContent,
   },
 };
 

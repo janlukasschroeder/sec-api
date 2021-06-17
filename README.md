@@ -11,8 +11,7 @@
 - Client- and server-side JavaScript supported (Node.js, React, React Native, Angular, Vue, etc.)
 - Free API key available on [sec-api.io](https://sec-api.io)
 
-The official documentation explains how to use the
-query API to filter historical filings: [sec-api.io/docs](https://sec-api.io/docs)
+You can find more examples and details here: [sec-api.io/docs](https://sec-api.io/docs)
 
 Data source: [sec.gov](https://www.sec.gov/edgar/searchedgar/companysearch.html)
 
@@ -27,6 +26,12 @@ using the API as imported package. Both options are explained below.
 - Get your free API key here: [sec-api.io](https://sec-api.io)
 
 # Query API
+
+The query API allows you to search and filter all 18 million filings published on SEC EDGAR.
+
+---
+
+The example below returns the most recent 10-Q filings.
 
 ```js
 const { queryApi } = require('sec-api');
@@ -43,7 +48,15 @@ const query = {
 const filings = await queryApi.getFilings(rawQuery);
 ```
 
+> See the documentation for more details: https://sec-api.io/docs/query-api
+
 # Full-Text Search API
+
+Full-text search allows you to search the full text of all EDGAR filings submitted since 2001. The full text of a filing includes all data in the filing itself as well as all attachments (such as exhibits) to the filing.
+
+---
+
+The example below returns all 8-K and 10-Q filings and their exhibits, filed between 01-01-2021 and 14-06-2021, that include the exact phrase "LPCN 1154".
 
 ```js
 const { fullTextSearchApi } = require('sec-api');
@@ -60,7 +73,14 @@ const query = {
 const filings = await fullTextSearchApi.getFilings(rawQuery);
 ```
 
+> See the documentation for more details: https://sec-api.io/docs/full-text-search-api
+
 # Real-Time Streaming API
+
+The stream API provides a live stream (aka feed) of newly published filings on SEC EDGAR.
+A new filing is sent to your connected client as soon as its published.
+
+---
 
 Type in your command line:
 
@@ -80,6 +100,8 @@ streamApi.on('filing', (filing) => console.log(filing));
 
 5. `node index.js` to start listening for new filings. New filings are
    printed in your console as soon as they are published on SEC EDGAR.
+
+> See the documentation for more details: https://sec-api.io/docs/stream-api
 
 ## Command Line
 
@@ -107,6 +129,23 @@ class Filings extends React.Component {
   // ...
 }
 ```
+
+# Filing Render API
+
+Used to fetch the content of any filing or exhibit.
+
+```js
+const { renderApi } = require('sec-api');
+
+renderApi.setApiKey('YOUR_API_KEY');
+
+const filingUrl =
+  'https://www.sec.gov/Archives/edgar/data/1841925/000121390021032758/ea142795-8k_indiesemic.htm';
+
+const filingContent = await renderApi.getFilingContent(filingUrl);
+```
+
+> See the documentation for more details: https://sec-api.io/docs/sec-filings-render-api
 
 # Response Format
 

@@ -11,4 +11,7 @@ module.exports = {
   fullTextApi: {
     endpoint: 'https://api.sec-api.io/full-text-search',
   },
+  renderApi: {
+    endpoint: 'https://api.sec-api.io/filing-reader',
+  },
 };

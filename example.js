@@ -50,6 +50,23 @@ const fullTextSearchExample = async () => {
 // fullTextSearchExample();
 
 /**
+ * Render API
+ */
+const { renderApi } = secApi;
+
+const renderApiExample = async () => {
+  const filingUrl =
+    'https://www.sec.gov/Archives/edgar/data/1841925/000121390021032758/ea142795-8k_indiesemic.htm';
+
+  const data = await renderApi.getFilingContent(filingUrl);
+
+  console.log(data);
+};
+
+// uncomment
+// renderApiExample();
+
+/**
  * Stream API
  */
 const { streamApi } = secApi;
