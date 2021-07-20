@@ -1,10 +1,11 @@
 # sec.gov EDGAR filings query & real-time API
 
-- Covers +18 million SEC Edgar filings for **over 8000** publicly listed companies, ETFs, hedge funds, mutual funds, and investors dating back to 1993.
+- Covers +18 million SEC Edgar filings for **over 10,000** publicly listed companies, ETFs, hedge funds, mutual funds, and investors dating back to 1993.
 - Every filing is **mapped to a CIK and ticker**.
 - **All +150 form types** are supported, eg 10-Q, 10-K, 4, 8-K, 13-F, S-1, 424B4 and many more.
   [See the list of supported form types here.](https://sec-api.io/#list-of-sec-form-types)
 - The API returns a new filing as soon as it is published on SEC EDGAR.
+- XBRL-to-JSON converter and parser API. Extract standardized financial statements from any 10-K and 10-Q filing.
 - **No XBRL/XML** needed - JSON formatted.
 - 13F holdings API included. Monitor all institutional ownerships in real-time.
 - Python, R, Java, C++, Excel scripts are supported through websockets
@@ -130,9 +131,197 @@ class Filings extends React.Component {
 }
 ```
 
+# XBRL-To-JSON Converter API
+
+Parse and standardize any XBRL and convert it to JSON. Extract financial statements and meta data from 10-K and 10-Q filings.
+
+The entire US GAAP taxonomy is fully supported. All XBRL items are fully converted into JSON, including `us-gaap`, `dei` and custom items. XBRL facts are automatically mapped to their respective context including period instants and date ranges.
+
+All financial statements are accessible and standardized:
+
+- StatementsOfIncome
+- StatementsOfIncomeParenthetical
+- StatementsOfComprehensiveIncome
+- StatementsOfComprehensiveIncomeParenthetical
+- BalanceSheets
+- BalanceSheetsParenthetical
+- StatementsOfCashFlows
+- StatementsOfCashFlowsParenthetical
+- StatementsOfShareholdersEquity
+- StatementsOfShareholdersEquityParenthetical
+
+Variants such as `ConsolidatedStatementsofOperations` or `ConsolidatedStatementsOfLossIncome` are automatically standardized to their root name, e.g. `StatementsOfIncome`.
+
+## Income Statement - Example Item
+
+```json
+{
+  "StatementsOfIncome": {
+    "RevenueFromContractWithCustomerExcludingAssessedTax": [
+      {
+        "decimals": "-6",
+        "unitRef": "usd",
+        "period": {
+          "startDate": "2019-09-29",
+          "endDate": "2020-09-26"
+        },
+        "value": "274515000000"
+      },
+      {
+        "decimals": "-6",
+        "unitRef": "usd",
+        "period": {
+          "startDate": "2018-09-30",
+          "endDate": "2019-09-28"
+        },
+        "value": "260174000000"
+      }
+    ]
+  }
+}
+```
+
+## Usage
+
+There are 3 ways to convert XBRL to JSON:
+
+- `htm-url`: Provide the URL of the filing ending with `.htm`
+  Example URL: https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231.htm
+- `xbrl-url`: Provide the URL of the XBRL file ending with `.xml`. The XBRL file URL can be found in the `dataFiles` array returned by our query API. The array item has the description `EXTRACTED XBRL INSTANCE DOCUMENT` or similar.
+  Example URL: https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231_htm.xml
+- `accession-no`: Provide the accession number of the filing, e.g. `0001564590-21-004599`
+
+```js
+const { xbrlApi } = secApi;
+
+xbrlApi.setApiKey('YOUR_API_KEY');
+
+// 10-K HTM File URL example
+xbrlApi
+  .xbrlToJson({
+    htmUrl:
+      'https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/aapl-20200926.htm',
+  })
+  .then(console.log);
+
+// 10-K XBRL File URL Example
+xbrlApi
+  .xbrlToJson({
+    xbrlUrl:
+      'https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/aapl-20200926_htm.xml',
+  })
+  .then(console.log);
+
+// 10-K Accession Number Example
+xbrlApi.xbrlToJson({ accessionNo: '0000320193-20-000096' }).then(console.log);
+```
+
+## Example Response
+
+Note: response is shortened.
+
+```json
+{
+ "CoverPage": {
+  "DocumentPeriodEndDate": "2020-09-26",
+  "EntityRegistrantName": "Apple Inc.",
+  "EntityIncorporationStateCountryCode": "CA",
+  "EntityTaxIdentificationNumber": "94-2404110",
+  "EntityAddressAddressLine1": "One Apple Park Way",
+  "EntityAddressCityOrTown": "Cupertino",
+  "EntityAddressStateOrProvince": "CA",
+  "EntityAddressPostalZipCode": "95014",
+  "CityAreaCode": "408",
+  "LocalPhoneNumber": "996-1010",
+  "TradingSymbol": "AAPL",
+  "EntityPublicFloat": {
+   "decimals": "-6",
+   "unitRef": "usd",
+   "period": {
+    "instant": "2020-03-27"
+   },
+   "value": "1070633000000"
+  },
+  "EntityCommonStockSharesOutstanding": {
+   "decimals": "-3",
+   "unitRef": "shares",
+   "period": {
+    "instant": "2020-10-16"
+   },
+   "value": "17001802000"
+  },
+  "DocumentFiscalPeriodFocus": "FY",
+  "CurrentFiscalYearEndDate": "--09-26"
+ },
+ "StatementsOfIncome": {
+  "RevenueFromContractWithCustomerExcludingAssessedTax": [
+   {
+    "decimals": "-6",
+    "unitRef": "usd",
+    "period": {
+     "startDate": "2019-09-29",
+     "endDate": "2020-09-26"
+    },
+    "segment": {
+     "dimension": "srt:ProductOrServiceAxis",
+     "value": "us-gaap:ProductMember"
+    },
+    "value": "220747000000"
+   },
+   {
+    "decimals": "-6",
+    "unitRef": "usd",
+    "period": {
+     "startDate": "2018-09-30",
+     "endDate": "2019-09-28"
+    },
+    "segment": {
+     "dimension": "srt:ProductOrServiceAxis",
+     "value": "us-gaap:ProductMember"
+    },
+    "value": "213883000000"
+   }
+  ]
+ },
+ "BalanceSheets": {
+  "CashAndCashEquivalentsAtCarryingValue": [
+   {
+    "decimals": "-6",
+    "unitRef": "usd",
+    "period": {
+     "instant": "2020-09-26"
+    },
+    "value": "38016000000"
+   },
+   {
+    "decimals": "-6",
+    "unitRef": "usd",
+    "period": {
+     "instant": "2019-09-28"
+    },
+    "value": "48844000000"
+   },
+   {
+    "decimals": "-6",
+    "unitRef": "usd",
+    "period": {
+     "instant": "2020-09-26"
+    },
+    "segment": {
+     "dimension": "us-gaap:FinancialInstrumentAxis",
+     "value": "us-gaap:CashMember"
+    },
+    "value": "17773000000"
+   }
+  ]
+ }
+```
+
+> See the documentation for more details: https://sec-api.io/docs/xbrl-to-json-converter-api
+
 # Filing Render API
 
-Used to fetch the content of any filing or exhibit.
+Used to download any filing or exhibit. You can process the downloaded filing in memory or save the filing to your hard drive.
 
 ```js
 const { renderApi } = require('sec-api');

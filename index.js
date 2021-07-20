@@ -115,6 +115,33 @@ const getFilingContent = async (url, type = 'html') => {
 };
 
 /**
+ * XBRL-to-JSON converter and parser
+ */
+const xbrlToJson = async ({ htmUrl, xbrlUrl, accessionNo } = {}) => {
+  if (!htmUrl && !xbrlUrl && !accessionNo) {
+    throw new Error(
+      'Please provide one of the following arguments: htmUrl, xbrlUrl or accessionNo'
+    );
+  }
+
+  let requestUrl = config.xbrlToJsonApi.endpoint + '?token=' + store.apiKey;
+
+  if (htmUrl) {
+    requestUrl += '&htm-url=' + htmUrl;
+  }
+  if (xbrlUrl) {
+    requestUrl += '&xbrl-url=' + xbrlUrl;
+  }
+  if (accessionNo) {
+    requestUrl += '&accession-no=' + accessionNo;
+  }
+
+  const { data } = await axios.get(requestUrl);
+
+  return data;
+};
+
+/**
  * Helpers
  */
 const modules = {
@@ -135,6 +162,10 @@ const modules = {
   renderApi: {
     setApiKey,
     getFilingContent,
+  },
+  xbrlApi: {
+    setApiKey,
+    xbrlToJson,
   },
 };
 

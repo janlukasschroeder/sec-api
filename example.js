@@ -75,3 +75,28 @@ const { streamApi } = secApi;
 // streamApi.connect(yourApiKey);
 // streamApi.on('filing', (filing) => console.log(filing));
 // streamApi.on('filings', (filings) => console.log(filings));
+
+const { xbrlApi } = secApi;
+
+xbrlApi.setApiKey('YOUR_API_KEY');
+
+// 10-K HTM File URL example
+// const xbrlJson = xbrlApi
+//   .xbrlToJson({
+//     htmUrl:
+//       'https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/aapl-20200926.htm',
+//   })
+//   .then(console.log);
+
+// 10-K XBRL File URL Example
+// const xbrlJson = xbrlApi
+//   .xbrlToJson({
+//     xbrlUrl:
+//       'https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/aapl-20200926_htm.xml',
+//   })
+//   .then(console.log);
+
+// 10-K Accession Number Example
+// const xbrlJson = xbrlApi
+//   .xbrlToJson({ accessionNo: '0000320193-20-000096' })
+//   .then(console.log);
