@@ -185,11 +185,11 @@ Variants such as `ConsolidatedStatementsofOperations` or `ConsolidatedStatements
 
 There are 3 ways to convert XBRL to JSON:
 
-- `htm-url`: Provide the URL of the filing ending with `.htm`
+- `htmUrl`: Provide the URL of the filing ending with `.htm`.
   Example URL: https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231.htm
-- `xbrl-url`: Provide the URL of the XBRL file ending with `.xml`. The XBRL file URL can be found in the `dataFiles` array returned by our query API. The array item has the description `EXTRACTED XBRL INSTANCE DOCUMENT` or similar.
+- `xbrlUrl`: Provide the URL of the XBRL file ending with `.xml`. The XBRL file URL can be found in the `dataFiles` array returned by our query API. The array item has the description `EXTRACTED XBRL INSTANCE DOCUMENT` or similar.
   Example URL: https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231_htm.xml
-- `accession-no`: Provide the accession number of the filing, e.g. `0001564590-21-004599`
+- `accessionNo`: Provide the accession number of the filing, e.g. `0001564590-21-004599`
 
 ```js
 const { xbrlApi } = secApi;
