@@ -18,7 +18,7 @@ const streamApiStore = {};
 
 const initSocket = (apiKey) => {
   const uri = config.io.server + '/' + config.io.namespace.allFilings;
-  const params = { query: { apiKey } };
+  const params = { query: { apiKey }, transports: ['websocket'] };
   streamApiStore.socket = io(uri, params);
   streamApiStore.socket.on('connect', () =>
     console.log('Socket connected to', uri)
