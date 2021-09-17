@@ -1,13 +1,4 @@
-# sec.gov EDGAR filings query, extraction, converter and real-time streaming API
-
-- **Query API** - search all +18 million SEC EDGAR filings published since 1993 using simpe and complex queries.
-- **Full-text search API** - find filings, attachments or exhibits mentioning specific keywords or phrases.
-- **Real-time streaming API** - stream new filings in real-time with an average delay of 500 milliseconds.
-- **XBRL-to-JSON converter API** - convert XBRL filing versions into standardized JSON and access income statements, balance sheets and cash flow statements of all 10-K and 10-Q filings.
-- **10-K/10-Q section extraction API** - extract individual sections from 10-K and 10-Q filings, in standardized text or HTML.
-- **Filing download & render API** - download and render any filing or exhibit.
-
----
+# sec.gov EDGAR filings query, extraction, parser and real-time streaming API
 
 - Covers +18 million SEC Edgar filings for **over 10,000** publicly listed companies, ETFs, hedge funds, mutual funds, and investors dating back to 1993.
 - Every filing is **mapped to a CIK and ticker**.
