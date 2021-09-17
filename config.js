@@ -17,4 +17,7 @@ module.exports = {
   xbrlToJsonApi: {
     endpoint: 'https://api.sec-api.io/xbrl-to-json',
   },
+  extractorApi: {
+    endpoint: 'https://api.sec-api.io/extractor',
+  },
 };

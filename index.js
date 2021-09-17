@@ -145,6 +145,23 @@ const xbrlToJson = async ({ htmUrl, xbrlUrl, accessionNo } = {}) => {
 };
 
 /**
+ * Extractor API
+ */
+const getSection = async (filingUrl, section = '1A', returnType = 'text') => {
+  if (!filingUrl || !filingUrl.length) {
+    throw new Error('No valid filing URL provided');
+  }
+
+  const requestUrl =
+    config.extractorApi.endpoint +
+    `?token=${store.apiKey}&url=${filingUrl}&item=${section}&type=${returnType}`;
+
+  const { data } = await axios.get(requestUrl);
+
+  return data;
+};
+
+/**
  * Helpers
  */
 const modules = {
@@ -169,6 +186,10 @@ const modules = {
   xbrlApi: {
     setApiKey,
     xbrlToJson,
+  },
+  extractorApi: {
+    setApiKey,
+    getSection,
   },
 };
 

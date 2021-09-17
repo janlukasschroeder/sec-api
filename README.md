@@ -1,4 +1,13 @@
-# sec.gov EDGAR filings query & real-time API
+# sec.gov EDGAR filings query, extraction, converter and real-time streaming API
+
+- **Query API** - search all +18 million SEC EDGAR filings published since 1993 using simpe and complex queries.
+- **Full-text search API** - find filings, attachments or exhibits mentioning specific keywords or phrases.
+- **Real-time streaming API** - stream new filings in real-time with an average delay of 500 milliseconds.
+- **XBRL-to-JSON converter API** - convert XBRL filing versions into standardized JSON and access income statements, balance sheets and cash flow statements of all 10-K and 10-Q filings.
+- **10-K/10-Q section extraction API** - extract individual sections from 10-K and 10-Q filings, in standardized text or HTML.
+- **Filing download & render API** - download and render any filing or exhibit.
+
+---
 
 - Covers +18 million SEC Edgar filings for **over 10,000** publicly listed companies, ETFs, hedge funds, mutual funds, and investors dating back to 1993.
 - Every filing is **mapped to a CIK and ticker**.
@@ -319,9 +328,53 @@ Note: response is shortened.
 
 > See the documentation for more details: https://sec-api.io/docs/xbrl-to-json-converter-api
 
-# Filing Render API
+# 10-K/10-Q Section Extractor API
 
-Used to download any filing or exhibit. You can process the downloaded filing in memory or save the filing to your hard drive.
+The Extractor API returns individual sections from 10-Q and 10-K filings. The extracted section is cleaned and standardized - in raw text or in standardized HTML. You can programmatically extract one or multiple sections from any 10-Q and 10-K filing.
+
+All 10-K and 10-Q sections can be extracted:
+
+- 1 - Business
+- 1A - Risk Factors
+- 1B - Unresolved Staff Comments
+- 2 - Properties
+- 3 - Legal Proceedings
+- 4 - Mine Safety Disclosures
+- 5 - Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities
+- 6 - Selected Financial Data (prior to February 2021)
+- 7 - Management’s Discussion and Analysis of Financial Condition and Results of Operations
+- 7A - Quantitative and Qualitative Disclosures about Market Risk
+- 8 - Financial Statements and Supplementary Data
+- 9 - Changes in and Disagreements with Accountants on Accounting and Financial Disclosure
+- 9A - Controls and Procedures
+- 9B - Other Information
+- 10 - Directors, Executive Officers and Corporate Governance
+- 11 - Executive Compensation
+- 12 - Security Ownership of Certain Beneficial Owners and Management and Related Stockholder Matters
+- 13 - Certain Relationships and Related Transactions, and Director Independence
+- 14 - Principal Accountant Fees and Services
+
+## Example
+
+```js
+const { extractorApi } = secApi;
+
+// Tesla 10-K filing
+const filingUrl =
+  'https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231.htm';
+
+const sectionText = await extractorApi.getSection(filingUrl, '1A', 'text');
+const sectionHtml = await extractorApi.getSection(filingUrl, '1A', 'html');
+
+console.log(sectionText);
+console.log(sectionHtml);
+```
+
+> See the documentation for more details: https://sec-api.io/docs/sec-filings-item-extraction-api
+
+# Filing Render & Download API
+
+Used to download or render any filing or exhibit. You can process the downloaded filing in memory or save the filing to your hard drive.
 
 ```js
 const { renderApi } = require('sec-api');

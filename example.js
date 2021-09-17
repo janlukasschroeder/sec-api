@@ -76,9 +76,28 @@ const { streamApi } = secApi;
 // streamApi.on('filing', (filing) => console.log(filing));
 // streamApi.on('filings', (filings) => console.log(filings));
 
+/**
+ * 10-K/10-Q Section Extraction API
+ */
+const { extractorApi } = secApi;
+
+(async () => {
+  const filingUrl =
+    'https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231.htm';
+
+  const sectionText = await extractorApi.getSection(filingUrl, '1A', 'text');
+  const sectionHtml = await extractorApi.getSection(filingUrl, '1A', 'html');
+
+  console.log(sectionText);
+  console.log(sectionHtml);
+})();
+
+/**
+ * XBRL-to-JSON API
+ */
 const { xbrlApi } = secApi;
 
-xbrlApi.setApiKey('YOUR_API_KEY');
+// xbrlApi.setApiKey('YOUR_API_KEY');
 
 // 10-K HTM File URL example
 // const xbrlJson = xbrlApi
