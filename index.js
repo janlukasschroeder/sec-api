@@ -32,12 +32,10 @@ const initSocket = (apiKey) => {
 };
 
 const handleNewFiling = (filing) => {
-  console.log(filing);
   streamApiStore.eventEmitter.emit('filing', filing);
 };
 
 const handleNewFilings = (filings) => {
-  console.log(filing);
   streamApiStore.eventEmitter.emit('filings', filings);
 };
 
