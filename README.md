@@ -365,7 +365,7 @@ console.log(sectionHtml);
 
 # Filing Render & Download API
 
-Used to download or render any filing or exhibit. You can process the downloaded filing in memory or save the filing to your hard drive.
+Download or render up to 40 filings per second. All filings, exhibits and attachements are supported. Access over 650,000 gigabyte of filings data. You can process the downloaded data in memory or save it to your hard drive.
 
 ```js
 const { renderApi } = require('sec-api');

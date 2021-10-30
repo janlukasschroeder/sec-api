@@ -81,7 +81,7 @@ const { streamApi } = secApi;
  */
 const { extractorApi } = secApi;
 
-(async () => {
+const extractorApiExample = async () => {
   const filingUrl =
     'https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231.htm';
 
@@ -90,7 +90,10 @@ const { extractorApi } = secApi;
 
   console.log(sectionText);
   console.log(sectionHtml);
-})();
+};
+
+// uncomment
+// extractorApiExample();
 
 /**
  * XBRL-to-JSON API

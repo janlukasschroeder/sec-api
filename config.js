@@ -14,6 +14,9 @@ module.exports = {
   renderApi: {
     endpoint: 'https://api.sec-api.io/filing-reader',
   },
+  downloadApi: {
+    endpoint: 'https://archive.sec-api.io/',
+  },
   xbrlToJsonApi: {
     endpoint: 'https://api.sec-api.io/xbrl-to-json',
   },

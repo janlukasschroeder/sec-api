@@ -96,14 +96,17 @@ const getFilingsFullText = async (query) => {
  * Render API
  */
 const getFilingContent = async (url, type = 'html') => {
-  const _url =
-    config.renderApi.endpoint +
-    '?token=' +
-    store.apiKey +
-    '&type=' +
-    type +
-    '&url=' +
-    url;
+  let _url;
+
+  if (type === 'pdf') {
+    _url = config.renderApi.endpoint + +'&type=' + type + '&url=' + url;
+  } else {
+    const filename = url.replace(
+      'https://www.sec.gov/Archives/edgar/data/',
+      ''
+    );
+    _url = config.downloadApi.endpoint + filename + '?token=' + store.apiKey;
+  }
 
   const options = {
     method: 'get',
